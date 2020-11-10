@@ -3,7 +3,7 @@ import React from 'react';
 const ErrorIndicator = () => {
     return (
         <div>
-            Error!
+            На жаль, виникла помилка! Спробуйте ще раз, будь ласка...
         </div>
     );
 }

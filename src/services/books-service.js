@@ -198,16 +198,29 @@ class BooksService {
         }    
     ]; 
 
+
     getBooks(data) {
         return new Promise( (resolve, reject) => {
             setTimeout( () => {
-                if (Math.random > 0.75) {
-                    resolve(data);
+                if (Math.random() > 0.5) {
+                    resolve(data)
                 } else {
-                    reject(new Error('На жаль, виникла помилка!'))
+                    reject(new Error('На жаль, виникла помилка! Спробуйте ще раз, будь ласка...'))
                 }
-            });
-        })
+            }, 2000);
+        });
+    }
+
+    getChildrenBooks() {
+        return this.getBooks(this.childrenBooks);
+    }
+
+    getClassicBooks() {
+        return this.getBooks(this.classicBooks);
+    }
+
+    getDetectiveBooks() {
+        return this.getBooks(this.detectiveBooks);
     }
 }
 

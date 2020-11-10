@@ -16,3 +16,4 @@ const withBooksService = () => (Wrapped) => {
 };
 
 export default withBooksService;
+

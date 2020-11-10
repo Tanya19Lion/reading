@@ -1,10 +1,13 @@
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+
 import Header from '../header/header';
 import SearchPanel from '../search-panel/search-panel';
-import ChidrenPage from '../pages/children-page';
-import ClassicPage from '../pages/classic-page';
-import DetectivePage from '../pages/detective-page';
+import MainPage from '../pages/main-page';
 import Footer from '../footer/footer';
+import ClassicListContainer from '../books-lists/classic-list-container';
+import DetectiveListContainer from '../books-lists/detective-list-container';
+import ChildrenListContainer from '../books-lists/children-list-container';
 
 import styled from 'styled-components';
 
@@ -20,14 +23,6 @@ const Content = styled.div`
 const FooterWrapper = styled.div`
 	flex: 0 0 auto;
 `;
-const MainPages = styled.div`
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: 50px 10px;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-`;
 
 const App = () => {
   return (
@@ -35,15 +30,16 @@ const App = () => {
 		<Content>
 			<Header />
 			<SearchPanel />
-			<MainPages>
-				<ChidrenPage />
-				<ClassicPage />
-				<DetectivePage />
-			</MainPages>
+			<Switch>
+				<Route path='/' component={MainPage} exact />
+				<Route path='/children' render={() => <ChildrenListContainer />} />
+				<Route path='/classic' render={() => <ClassicListContainer />} /> 
+				<Route path='/detective' render={() => <DetectiveListContainer />} /> 
+			</Switch> 
 		</Content>
-		<FooterWrapper>
+		{/* <FooterWrapper>
 			<Footer />
-		</FooterWrapper>
+		</FooterWrapper> */}
 	</AppStyled>
   );
 }
