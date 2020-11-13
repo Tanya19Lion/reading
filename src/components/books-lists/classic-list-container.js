@@ -4,7 +4,7 @@ import ClassicList from './classic-list';
 import withBooksService from '../hoc/with-books-service';
 import ErrorIndicator from '../error-indicator/error-indicator';
 
-import {  requestedBooks, addedBooks, checkError } from '../../redux/actions/actions';
+import {  requestedBooks, addedBooks, checkError,  bookAddedToOrder } from '../../redux/actions/actions';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
@@ -20,13 +20,13 @@ class ClassicListContainer extends React.Component {
     }
     
     render() {
-        const { books, loading, error } = this.props;
+        const { books, loading, error, onAddedBook } = this.props;
 
         if (loading) return <Spinner />;
 
         if (error) return <ErrorIndicator />;   
 
-        return <ClassicList books={books} />;
+        return <ClassicList books={books} onAddedBook={onAddedBook}/>;
     }
 }
 
@@ -38,10 +38,19 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = {
-    requestedBooks, 
-    addedBooks, 
-    checkError 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        requestedBooks: () => {
+            dispatch(requestedBooks())
+        },
+        addedBooks: (books) => {
+            dispatch(addedBooks(books))
+        },
+        checkError: (error) => {
+            dispatch(checkError(error))
+        },
+        onAddedBook: (id) => dispatch(bookAddedToOrder(id))
+    }   
 };
 
 export default compose(

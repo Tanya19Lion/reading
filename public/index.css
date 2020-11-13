@@ -5,6 +5,7 @@
 html,
 body {
 	height: 100%;
+	text-align: center;
 }
 html {
     box-sizing: border-box;
@@ -19,4 +20,10 @@ a {
 }
 a:visited {
 	color: blue;
+}
+ul, li {
+	list-style: none;
+}
+#root {
+	height: 100%;
 }

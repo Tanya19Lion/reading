@@ -1,33 +1,36 @@
 import React, {Component} from 'react';
 import Spinner from '../spinner/spinner';
-import ChildrenList from './children-list';
-import withBooksService from '../hoc/with-books-service';
 import ErrorIndicator from '../error-indicator/error-indicator';
 
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import {  requestedBooks, addedBooks, checkError, bookAddedToOrder } from '../../redux/actions/actions';
 
-class ChildrenListContainer extends Component {
+const withData = (View, getData) => {
 
-    componentDidMount() {
-        const {requestedBooks, addedBooks, checkError, booksService  } = this.props;
+    return class extends Component {
+        constructor(props) {
+            super(props);
+        }
 
-        requestedBooks();
-
-        booksService.getChildrenBooks()
-            .then((data) => addedBooks(data))
-            .catch((error) => checkError(error));
-    }
+        componentDidMount() {
+            const {requestedBooks, addedBooks, checkError } = this.props;
     
-    render() {
-        const { books, loading, error, onAddedBook } = this.props;
+            requestedBooks();
 
-        if (loading) return <Spinner />
+            getData()
+                .then((data) => addedBooks(data))
+                .catch((error) => checkError(error));
+        }
+        
+        render() {
+            const { books, loading, error,  onAddedBook } = this.props;
 
-        if (error) return <ErrorIndicator />  
+            if (loading) return <Spinner />
 
-        return <ChildrenList books={books} onAddedBook={onAddedBook}/>
+            if (error) return <ErrorIndicator />  
+
+            return <View books={books}  onAddedBook={ onAddedBook}/>
+        }
     }
 }
 
@@ -54,7 +57,4 @@ const mapDispatchToProps = (dispatch) => {
     }   
 };
 
-export default compose(
-    withBooksService(),
-    connect(mapStateToProps, mapDispatchToProps))
-    (ChildrenListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(withData);

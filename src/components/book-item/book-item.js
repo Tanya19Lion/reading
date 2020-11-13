@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Item = styled.div`
     display: flex;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
     img {
         width: 200px;
         height: 250px;
@@ -14,6 +14,7 @@ const ItemDesc = styled.div`
     flex-direction: column;
     justify-content: space-between;
     margin-left: 20px;
+    text-align: left;
     h2 {
         font-size: 25px;
         font-weight: 700;
@@ -44,7 +45,7 @@ const ItemDesc = styled.div`
     }
 `;
 
-const BookItem = ( {book} ) => {
+const BookItem = ( {book, onAddedBook} ) => {
     const { cover, title, author, price } = book;
     return (
         <Item>
@@ -55,7 +56,7 @@ const BookItem = ( {book} ) => {
                     <h3>{author}</h3>
                     <p>{price} грн.</p>
                  </div>   
-                 <button type='button'>Замовити</button>
+                 <button type='button' onClick={onAddedBook}>Замовити</button>
             </ItemDesc>
         </Item>
     );
