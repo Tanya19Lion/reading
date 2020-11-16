@@ -201,12 +201,12 @@ class BooksService {
     getBooks(data) {
         return new Promise( (resolve, reject) => {
             setTimeout( () => {
-                // if (Math.random() > 0.5) {
+                // if (Math.random() < 0.8) {
                     resolve(data)
                 // } else {
-                //     reject(new Error('На жаль, виникла помилка! Спробуйте ще раз, будь ласка...'))
+                //     reject(new Error('На жаль, дані недоступні! Спробуйте ще раз пізніше, будь ласка...'))
                 // }
-            }, 2000);
+            }, 1000);
         });
     }
 

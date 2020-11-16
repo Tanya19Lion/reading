@@ -11,7 +11,7 @@ import {  requestedBooks, addedBooks, checkError, bookAddedToOrder } from '../..
 class ChildrenListContainer extends Component {
 
     componentDidMount() {
-        const {requestedBooks, addedBooks, checkError, booksService  } = this.props;
+        const {requestedBooks, addedBooks, checkError, booksService } = this.props;
 
         requestedBooks();
 
@@ -21,36 +21,45 @@ class ChildrenListContainer extends Component {
     }
     
     render() {
-        const { books, loading, error, onAddedBook } = this.props;
-
+        const { books, findedItems, valueToSearch, loading, error, onAddedBook } = this.props;
+     
         if (loading) return <Spinner />
 
         if (error) return <ErrorIndicator />  
 
-        return <ChildrenList books={books} onAddedBook={onAddedBook}/>
+        if (valueToSearch.length === 0) {
+            return <ChildrenList books={books} onAddedBook={onAddedBook}/>
+        } else if (findedItems.length !== 0) {
+            return <ChildrenList books={findedItems} onAddedBook={onAddedBook}/>;
+        }
+        if (valueToSearch.length !== 0 && findedItems.length === 0) return <ChildrenList books={undefined} />;
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({books, loading, error, valueToSearch, findedItems }) => {
     return {
-        books: state.books,
-        loading: state.loading,
-        error: state.error
+        books,
+        loading,
+        error,
+        valueToSearch,
+        findedItems
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         requestedBooks: () => {
-            dispatch(requestedBooks())
+            dispatch(requestedBooks());
         },
         addedBooks: (books) => {
-            dispatch(addedBooks(books))
+            dispatch(addedBooks(books));
         },
         checkError: (error) => {
-            dispatch(checkError(error))
+            dispatch(checkError(error));
         },
-        onAddedBook: (id) => dispatch(bookAddedToOrder(id))
+        onAddedBook: (id) => {
+            dispatch(bookAddedToOrder(id));
+        }
     }   
 };
 

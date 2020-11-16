@@ -6,7 +6,6 @@ import Header from '../header/header';
 import Footer from '../footer/footer';
 import MainPage from '../pages/main-page';
 import OrderModal from '../order-modal/order-modal';
-import SearchPanel from '../search-panel/search-panel';
 import ClassicListContainer from '../books-lists/classic-list-container';
 import ChildrenListContainer from '../books-lists/children-list-container';
 import DetectiveListContainer from '../books-lists/detective-list-container';
@@ -30,7 +29,6 @@ const App = ({ isOpen }) => {
 		<AppStyled>
 			<Content>
 				<Header />
-				<SearchPanel />
 				<Switch>
 					<Route path='/' component={MainPage} exact />
 					<Route path='/children' render={() => <ChildrenListContainer />} />

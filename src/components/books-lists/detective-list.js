@@ -1,5 +1,6 @@
 import React from 'react';
 import BookItem from '../book-item/book-item';
+import SearchPanel from '../search-panel/search-panel';
 
 import styled from 'styled-components';
 
@@ -12,13 +13,31 @@ const StyledList = styled.div`
     grid-gap: 0 30px;
 `;
 
-const DetectiveList = ( {books, onAddedBook} ) => {
+const StyledText = styled.p`
+    font-size: 30px;
+    font-weight: 700;
+`;
+
+const DetectiveList = ({ books, onAddedBook }) => {
+    
+    if (books === undefined) {
+        return (
+            <>
+                <SearchPanel />
+                <StyledText>На жаль, за вашим запитом нічого не вдалося знайти...</StyledText>
+            </>
+        );
+    }
+
     return (
-        <StyledList>
-            {
-                books.map( (book) => <span key={book.id}><BookItem book={book} onAddedBook={() => onAddedBook(book.id)}/></span>)
-            } 
-        </StyledList>
+        <>
+            <SearchPanel />
+            <StyledList>
+                {
+                    books.map( (book) => <span key={book.id}><BookItem book={book} onAddedBook={() => onAddedBook(book.id)}/></span>)
+                } 
+            </StyledList>
+        </>
     );
 }
 

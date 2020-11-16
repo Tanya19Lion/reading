@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect }from 'react-redux';
 import styled from 'styled-components';
+import { whatToSearch } from '../../redux/actions/actions';
 
 const SearchStyled = styled.div`
     max-width: 800px;
@@ -17,31 +19,29 @@ const SearchStyled = styled.div`
             border-color: lightgray;
         }
     }
-    button {
-        border-radius: 5px;
-        color: #000;
-        background-color: lightgray;
-        font-size: 23px;
-        padding: 10px;
-        cursor: pointer;
-        transition: all .5s;
-        :hover {
-            color: #fff;
-            background-color: lightseagreen;
-        }
-    }
-
 `;
 
-const SearchPanel = () => {
+const SearchPanel = ({ valueToSearch, onSearchChange}) => {
     return (
         <SearchStyled>
-            <form>
-                <input placeholder='Що потрібно знайти?' />
-                <button type='button'>Пошук</button>
-            </form>
+            <input onChange={onSearchChange} placeholder='Назва книги, яку потрібно знайти?' value={valueToSearch}/>  
         </SearchStyled>
     );
 }
 
-export default SearchPanel;
+const mapStateToProps = ({ valueToSearch }) => {
+    return {
+        valueToSearch
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSearchChange: (event) => {
+            const value = event.target.value;
+            dispatch(whatToSearch(value));
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPanel);

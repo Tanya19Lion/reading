@@ -5,7 +5,10 @@ const initialState = {
     error: null,
     orderList: [],           
     summTotal: 0,
-    isModalOpen: false
+    isModalOpen: false,
+    valueToSearch: '',
+    findedItems: [],
+    
 };
 
 const updateOrderItem = (book, item = {}, quantity) => {
@@ -86,6 +89,12 @@ const updateOrder = (state, bookId, quantity) => {
     };
 };
 
+const search = (array, value) => {
+    return array.filter((item) => {
+        return item.title.toLowerCase().indexOf(value.toLowerCase()) > -1
+    });
+};
+
 const reducer = (state = initialState, action) => {
 
     switch(action.type) {
@@ -110,6 +119,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 books: [],
                 loading: false,
+                orderList: state.orderList,
                 error: action.value
             };
 
@@ -136,7 +146,14 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isModalOpen: false
             }
-
+        
+        case 'SEARCH_BOOK':       
+            return {
+                ...state,
+                valueToSearch: action.value,
+                findedItems: search(state.books, action.value)
+        };            
+        
         default:
             return state;
     }

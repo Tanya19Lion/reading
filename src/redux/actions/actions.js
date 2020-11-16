@@ -52,6 +52,12 @@ const goBackToOrder = () => {
     }
 }
 
+const whatToSearch = (value) => {
+    return {
+        type: 'SEARCH_BOOK',
+        value: value
+    }
+};
 
 export {
     requestedBooks,
@@ -61,5 +67,6 @@ export {
     bookRemovedFromOrder,
     bookDeletedFromOrder,
     closeModalWindow,
-    goBackToOrder
+    goBackToOrder,
+    whatToSearch
 }

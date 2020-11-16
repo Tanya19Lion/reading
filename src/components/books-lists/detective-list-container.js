@@ -4,7 +4,7 @@ import DetectiveList from './detective-list';
 import withBooksService from '../hoc/with-books-service';
 import ErrorIndicator from '../error-indicator/error-indicator';
 
-import {  requestedBooks, addedBooks, checkError,  bookAddedToOrder } from '../../redux/actions/actions';
+import {  requestedBooks, addedBooks, checkError, bookAddedToOrder } from '../../redux/actions/actions';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
@@ -20,23 +20,31 @@ class DetectiveListContainer extends React.Component {
     }
     
     render() {
-        const { books, loading, error, onAddedBook } = this.props;
+        const { books, findedItems, valueToSearch, loading, error, onAddedBook } = this.props;
+     
+        if (loading) return <Spinner />
 
-        if (loading) return <Spinner />;
+        if (error) return <ErrorIndicator />  
 
-        if (error) return <ErrorIndicator />;   
-
-        return <DetectiveList books={books} onAddedBook={onAddedBook}/>;
+        if (valueToSearch.length === 0) {
+            return <DetectiveList books={books} onAddedBook={onAddedBook}/>
+        } else if (findedItems.length !== 0) {
+            return <DetectiveList books={findedItems} onAddedBook={onAddedBook}/>;
+        }
+        if (valueToSearch.length !== 0 && findedItems.length === 0) return <DetectiveList books={undefined} />;
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({books, loading, error, valueToSearch, findedItems }) => {
     return {
-        books: state.books,
-        loading: state.loading,
-        error: state.error
+        books,
+        loading,
+        error,
+        valueToSearch,
+        findedItems
     };
 };
+
 
 const mapDispatchToProps = (dispatch) => {
     return {
